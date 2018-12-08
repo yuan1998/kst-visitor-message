@@ -7,11 +7,18 @@ use Illuminate\Http\Request;
 class MessageController extends Controller
 {
     //
-
     public function store(Request $request) {
-        logger("Request Data ========>");
+        logger("Card Request Data ========>");
         logger($request->all());
-        logger("<======== Request Data");
+        logger("<======== Card Request Data");
+
+        return $this->response->array("ok")->setStatusCode(200);
+    }
+
+    public function storeMessage(Request $request) {
+        logger("Message Request Data ========>");
+        logger($request->all());
+        logger("<======== Message Request Data");
 
         return $this->response->array("ok")->setStatusCode(200);
     }

@@ -19,4 +19,5 @@ $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api'
 ], function ($api) {
     $api->post('visitor/message/store', "MessageController@store");
+    $api->post('visitor/message/storeMessage', "MessageController@storeMessage");
 });
