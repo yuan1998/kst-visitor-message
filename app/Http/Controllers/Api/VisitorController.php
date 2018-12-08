@@ -15,6 +15,7 @@ class VisitorController extends Controller
             logger("<============ Visitor Store Bad Request ============>");
             return $this->response->errorBadRequest();
         }
+        $data = $this->safeDataFilter($data);
 
         $visitorId = $data['visitorId'];
         if (!$visitorId) {

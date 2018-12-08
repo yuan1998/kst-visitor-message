@@ -16,6 +16,7 @@ class MessageController extends Controller
             logger("<============ Message Store Bad Request ============>");
             return $this->response->errorBadRequest();
         }
+        $data = $this->safeDataFilter($data);
 
         $visitorId = $data['visitorId'];
 
