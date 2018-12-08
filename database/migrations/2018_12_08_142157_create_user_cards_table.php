@@ -15,7 +15,7 @@ class CreateUserCardsTable extends Migration
     {
         Schema::create('user_cards', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('visitorId',50)->comment('访客ID，访客的唯一标识')->nullable();
+            $table->string('visitorId',50)->comment('访客ID，访客的唯一标识')->nullable()->index();
             $table->string('linkman',50)->comment('联系人名称')->nullable();
             $table->bigInteger('cusType')->comment("访客类型（值在客户类型定义）")->nullable();
             $table->string('compName',50)->comment("公司名称")->nullable();
@@ -26,7 +26,6 @@ class CreateUserCardsTable extends Migration
             $table->string('msn',200)->comment("MSN/微信")->nullable();
             $table->string('email',200)->comment("邮箱")->nullable();
             $table->string('address',200)->comment("地址")->nullable();
-            $table->string('birthday',30)->comment("生日")->nullable();
             $table->string('birthday',30)->comment("生日")->nullable();
             $table->string('col1',500)->comment('自定义字段1')->nullable();
             $table->string('col2',500)->comment('自定义字段2')->nullable();
