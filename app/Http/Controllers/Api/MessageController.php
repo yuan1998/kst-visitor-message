@@ -13,6 +13,6 @@ class MessageController extends Controller
         logger($request->all());
         logger("<======== Request Data");
 
-        return $this->response->noContent()->setStatusCode(200);
+        return $this->response->array("ok")->setStatusCode(200);
     }
 }
