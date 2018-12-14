@@ -18,6 +18,11 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api'
 ], function ($api) {
+    //整形
     $api->post('visitor', "VisitorController@store");
     $api->post('visitor/message', "MessageController@store");
+
+    //口腔
+//    $api->post('visitor', "VisitorController@store");
+    $api->post('visitor/message/{type}', "MessageController@store");
 });

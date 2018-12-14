@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class VisitorController extends Controller
 {
-    public function store(Request $request)
+    public function store(Request $request, $type=null)
     {
         $data = json_decode($request->get('data', null), true);
 
@@ -27,6 +27,7 @@ class VisitorController extends Controller
 
         if (!$card) {
             $card = new UserCard();
+            $type && $data['type'] = $type;
         }
 
         $card->fill($data);
