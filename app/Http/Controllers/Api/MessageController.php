@@ -56,6 +56,8 @@ class MessageController extends Controller
 
     public function hasPhone($json)
     {
+        logger($json);
+        return '';
         $data   = json_decode($json, true);
         $result = '';
         if ($data) {
