@@ -63,7 +63,7 @@ class MessageController extends Controller
                 if ($value['recType'] == 1) {
                     $str = preg_replace('/\\".*?\\"/m', '', $value['recContent']);
                     $str = preg_replace('/<[^>]+>/m', '', $str);
-                    preg_match_all('/([0-9A-Za-z\_\-]{6,20})/m', $str, $matches);
+                    preg_match_all('/([0-9A-Za-z\_\-\ ]{6,20})/m', $str, $matches);
                     isset($matches[0]) && ($arr = array_merge($arr, $matches[0]));
                 }
             }
