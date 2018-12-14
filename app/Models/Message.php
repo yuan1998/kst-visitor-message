@@ -95,4 +95,8 @@ class Message extends Model
         'kq' => '口腔',
     ];
 
+    public function userCard()
+    {
+        return $this->hasOne(UserCard::class , 'visitorId' , 'visitorId');
+    }
 }

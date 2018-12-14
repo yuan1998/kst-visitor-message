@@ -44,4 +44,10 @@ class UserCard extends Model
         'addtime'        => 'date:yyyy-mm-dd hh24:mi:ss',
         'lastChangeTime' => 'date:yyyy-mm-dd hh24:mi:ss',
     ];
+
+    public function message()
+    {
+        return $this->belongsTo(Message::class , 'visitorId' , 'visitorId');
+    }
+
 }
