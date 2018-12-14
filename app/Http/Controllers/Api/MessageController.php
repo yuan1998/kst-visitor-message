@@ -56,13 +56,10 @@ class MessageController extends Controller
 
     public function hasPhone($json)
     {
-        logger($json);
-        return '';
-        $data   = json_decode($json, true);
         $result = '';
-        if ($data) {
+        if ($json) {
             $arr = [];
-            foreach ($data as $value) {
+            foreach ($json as $value) {
                 if ($value['recType'] == 1) {
                     preg_match_all('/([0-9A-Za-z\_\-])+/m', $value['recContent'], $matches);
                     isset($matches[0]) && ($arr = array_merge($arr, $matches[0]));
