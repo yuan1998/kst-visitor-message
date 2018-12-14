@@ -22,5 +22,6 @@ use Encore\Admin\Admin;
 
 Encore\Admin\Form::forget(['map', 'editor']);
 
+Column::extend('cardModal' , \App\Admin\Extensions\CardModal::class);
 Column::extend('messageModal' , \App\Admin\Extensions\Modal::class);
 Admin::css('/asset/custom.min.css');

@@ -24,5 +24,14 @@ function timeToString($second) {
     }
 
     return $result;
+}
 
+function valueOfDefault($arr , $default)
+{
+    foreach ($arr as $key => $value) {
+        if (!$value) {
+            $arr[$key] = $default;
+        }
+    }
+    return $arr;
 }

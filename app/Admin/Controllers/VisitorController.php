@@ -143,9 +143,7 @@ class VisitorController extends Controller
             return $result;
         });
         $grid->dialogs('对话记录')->style('text-align:center;')->messageModal();
-        $grid->userCard()->display(function ($val) {
-            return $val ? '有' : '无';
-        });
+        $grid->column('visitor','名片')->cardModal();
         $grid->visitorName('访客名称')->style('min-width:120px;');
         $grid->curStayTime('访客停留时间（秒 ）')->style('min-width:150px;')->display(function ($value) {
             return timeToString($value);

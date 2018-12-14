@@ -1,3 +1,21 @@
+.clearfix() {
+    zoom: 1;
+
+    &::after,
+    &::before {
+        content: '';
+        display: table;
+    }
+
+    &::after {
+        clear: both;
+        visibility: hidden;
+        font-size: 0;
+        height: 0;
+    }
+}
+
+
 #pjax-container {
     thead th {
         white-space: nowrap;
@@ -55,6 +73,24 @@
             .message-text {
                 margin: 0;
             }
+        }
+    }
+}
+
+.card-container {
+    .card-item {
+        font-size: 16px;
+        line-height: 1.4;
+        color: #333;
+        margin-bottom: 10px;
+        .clearfix;
+
+        .card-label {
+            float: left;
+            width: 140px;
+        }
+        .card-text {
+            margin-left: 140px;
         }
     }
 }
