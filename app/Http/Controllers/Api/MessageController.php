@@ -61,7 +61,7 @@ class MessageController extends Controller
             $arr = [];
             foreach ($json as $value) {
                 if ($value['recType'] == 1) {
-                    preg_match_all('/([0-9A-Za-z\_\-])+/m', $value['recContent'], $matches);
+                    preg_match_all('/([0-9A-Za-z\_\-]){6,20}/m', $value['recContent'], $matches);
                     isset($matches[0]) && ($arr = array_merge($arr, $matches[0]));
                 }
             }
