@@ -92,7 +92,7 @@ class VisitorController extends Controller
     protected function grid($type)
     {
         $grid = new Grid(new Message);
-        $grid->model()->orderBy('curEnterTime','desc');
+        $grid->model()->with('visitor')->orderBy('curEnterTime','desc');
         if ($type) {
             $grid->model()->where('data_type' , $type);
         }
@@ -143,7 +143,9 @@ class VisitorController extends Controller
             return $result;
         });
         $grid->dialogs('对话记录')->style('text-align:center;')->messageModal();
-        $grid->column('visitor','名片')->cardModal();
+        $grid->cloumn('名片')->display(function () {
+            return $this->visitor->toArray();
+        })->cardModal();
         $grid->visitorName('访客名称')->style('min-width:120px;');
         $grid->curStayTime('访客停留时间（秒 ）')->style('min-width:150px;')->display(function ($value) {
             return timeToString($value);
