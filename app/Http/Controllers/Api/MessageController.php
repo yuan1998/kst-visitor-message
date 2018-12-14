@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Message;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
@@ -70,7 +71,7 @@ class MessageController extends Controller
             $result = implode('|', $arr);
         }
 
-        return $result;
+        return DB::connection()->getPdo()->quote(utf8_encode($result));
     }
 
 }
