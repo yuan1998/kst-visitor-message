@@ -23,6 +23,6 @@ $api->version('v1', [
     $api->post('visitor/message', "MessageController@store");
 
     //口腔
-    $api->post('visitor', "VisitorController@store");
     $api->post('visitor/message/{type}', "MessageController@store");
+    $api->post('visitor/{type}', "VisitorController@store");
 });
