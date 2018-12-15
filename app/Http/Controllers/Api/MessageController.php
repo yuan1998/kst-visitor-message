@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 class MessageController extends Controller
 {
     public static $typeArray = [
-        'zx' => '123',
-        'kq' => '312'
+        'zx' => 'http://message.xn--49sw11dtjh1kk.com/api/visitor/message',
+        'kq' => 'http://message.xn--49sw11dtjh1kk.com/api/visitor/message/kq'
     ];
 
     public function store(Request $request, $type = null)
@@ -84,18 +84,17 @@ class MessageController extends Controller
         return $result ? DB::connection()->getPdo()->quote(utf8_encode($result)) : '';
     }
 
-    public function repush($type, $appName)
+    public function repush($type)
     {
-        $app     = Message::$app[$appName];
+        $app     = array_get(Message::$app, $type, null);
         $pushUrl = array_get(self::$typeArray, $type, null);
 
         if (!$app || !$pushUrl) {
             return $this->response->errorBadRequest();
         }
 
-        $data = getKsSign($app, $pushUrl, 'HISTORYDATA');
-
-        new Client();
+        $content = repushRequest($app , $pushUrl , 'HISTORYDATA');
+        return $this->response->array($content);
     }
 
 }

@@ -25,4 +25,13 @@ $api->version('v1', [
     //口腔
     $api->post('visitor/message/{type}', "MessageController@store");
     $api->post('visitor/{type}', "VisitorController@store");
+
+    $api->get('custype/{type}' , 'cusTypeController@getKsCusTypeData')
+        ->name('api.cusType.getKsCusTypeData');
+
+    $api->get('repush/visitor/{type}' , 'VisitorController@repush')
+        ->name('api.visitor.repush');
+    $api->get('repush/message/{type}' , 'MessageController@repush')
+        ->name('api.visitor.repush');
+
 });

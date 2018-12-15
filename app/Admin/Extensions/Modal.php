@@ -46,7 +46,6 @@ EOT;
 
     public function createBody($arr)
     {
-//        dd($arr);
         $arr = array_reverse($arr);
         $str = '';
 
@@ -56,6 +55,9 @@ EOT;
             }
             else if ($item['recType'] === 2) {
                 $str .= "<div class='message-pop-wrap message-left'><div class='message-pop-name'>{$item['sender']}</div><div class='message-pop'><p class='message-text'>{$item['recContent']}</p></div></div>";
+            }
+            else {
+                $str .= "<div class='message-pop-wrap message-center'> <div class='message-pop'>{$item['recContent']}</div> </div>";
             }
         }
 

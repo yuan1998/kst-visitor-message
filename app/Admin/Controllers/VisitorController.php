@@ -21,12 +21,12 @@ class VisitorController extends Controller
      * @param Content $content
      * @return Content
      */
-    public function index(Content $content , $type = null)
+    public function index(Content $content, $type = null)
     {
         $header = '访客管理';
 
         if ($type) {
-            $str = inArrayOrNull($type , Message::$dataTypeArray , '');
+            $str = inArrayOrNull($type, Message::$dataTypeArray, '');
             if (!$str) {
                 dd('Not Page');
             }
@@ -43,7 +43,7 @@ class VisitorController extends Controller
     /**
      * Show interface.
      *
-     * @param mixed $id
+     * @param mixed   $id
      * @param Content $content
      * @return Content
      */
@@ -58,7 +58,7 @@ class VisitorController extends Controller
     /**
      * Edit interface.
      *
-     * @param mixed $id
+     * @param mixed   $id
      * @param Content $content
      * @return Content
      */
@@ -92,23 +92,24 @@ class VisitorController extends Controller
     protected function grid($type)
     {
         $grid = new Grid(new Message);
-        $grid->model()->with('visitor')->orderBy('curEnterTime','desc');
+        $grid->model()->with('visitor')->orderBy('curEnterTime', 'desc');
         if ($type) {
-            $grid->model()->where('data_type' , $type);
+            $grid->model()->where('data_type', $type);
         }
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
 
-            $filter->column(1/2 , function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 $filter->equal('recId', '访客ID');
                 $filter->like('visitorName', '访客名称');
                 $filter->like('firstCsId', '初次接待客服');
                 $filter->like('joinCsIds', '参与接待客服');
                 $filter->like('keyword', '关键词');
+                $filter->like('sourceProvince', '来源省市');
                 $filter->like('sourceIp', '来源IP');
             });
-            $filter->column(1/2 , function ($filter) {
+            $filter->column(1 / 2, function ($filter) {
                 $filter->like('clue', '线索');
                 $filter->like('diaPage', '发起对话网址');
                 $filter->group('visitorSendNum', '发送消息数', function ($group) {
@@ -118,11 +119,22 @@ class VisitorController extends Controller
                     $group->ngt('不大于');
                     $group->equal('等于');
                 });
+                $filter->group('dialogs' , '聊天记录', function ($group) {
+                    $group->where('仅访客消息',function ($query) {
+                        $test = $this->input;
+                        $query->whereRaw('JSON_CONTAINS(dialogs, \'1\' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->"$**.recContent" , "one",?)),\'.recType\'))=1',["%{$test}%"])
+                            ->whereRaw('JSON_SEARCH(dialogs->"$[*].recContent" , "one",?) IS NOT NULL' , ["%{$test}%"]);
+                    });
+                    $group->where('所有消息',function ($query) {
+                        $test = $this->input;
+                        $query->whereRaw('JSON_SEARCH(dialogs->"$[*].recContent" , "one",?) IS NOT NULL' , ["%{$test}%"]);
+                    });
+
+                });
 //                $filter->like()->integer();
-                $filter->equal('dialogType' , '访客类型')->select(Message::$dialogTypeArray);
+                $filter->equal('dialogType', '访客类型')->select(Message::$dialogTypeArray);
                 $filter->between('curEnterTime', '最近一次访问')->datetime();
             });
-
 
 
             // 在这里添加字段过滤器
@@ -135,14 +147,14 @@ class VisitorController extends Controller
 
         $grid->id('Id')->style('min-width:50px;');
         $grid->data_type('所属')->style('min-width:50px;')->display(function ($val) {
-            return inArrayOrNull($val , Message::$dataTypeArray);
+            return inArrayOrNull($val, Message::$dataTypeArray);
         });
         $grid->recId('访客ID')->style('min-width:100px;');
         $grid->clue('线索')->display(function ($val) {
             $result = '-无-';
             if ($val) {
-                $arr = explode('|' , $val);
-                $result = implode('<br>' , $arr);
+                $arr    = explode('|', $val);
+                $result = implode('<br>', $arr);
             }
             return $result;
         });
@@ -158,13 +170,13 @@ class VisitorController extends Controller
         $grid->sourceProvince('来源省市')->style('min-width:100px;');
         $grid->sourceIpInfo('访客来源IP信息（网络接入商）')->style('min-width:220px;');
         $grid->terminalType('终端类型')->style('min-width:100px;')->display(function ($value) {
-            return inArrayOrNull($value , Message::$terminalTypeArray);
+            return inArrayOrNull($value, Message::$terminalTypeArray);
         });
         $grid->requestType('对话请求方式')->style('min-width:120px;')->display(function ($value) {
-            return inArrayOrNull($value , Message::$requestTypeArray);
+            return inArrayOrNull($value, Message::$requestTypeArray);
         });
         $grid->endType('对话结束方式')->style('min-width:120px;')->display(function ($value) {
-            return inArrayOrNull($value , Message::$endTypeArray);
+            return inArrayOrNull($value, Message::$endTypeArray);
         });
 
 
@@ -176,7 +188,7 @@ class VisitorController extends Controller
         $grid->firstCsId('初次接待客服')->style('min-width:120px;');
         $grid->joinCsIds('参与接待客服')->style('min-width:120px;');
         $grid->dialogType('对话类型')->style('min-width:120px;')->display(function ($value) {
-            return inArrayOrNull($value , Message::$dialogTypeArray);
+            return inArrayOrNull($value, Message::$dialogTypeArray);
         });
         $grid->diaPage('发起对话网址')->style('min-width:120px;');
         $grid->curFirstViewPage('本次最初访问网页');
