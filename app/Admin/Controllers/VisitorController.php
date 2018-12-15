@@ -103,10 +103,13 @@ class VisitorController extends Controller
             $filter->column(1/2 , function ($filter) {
                 $filter->equal('recId', '访客ID');
                 $filter->like('visitorName', '访客名称');
+                $filter->like('firstCsId', '初次接待客服');
+                $filter->like('joinCsIds', '参与接待客服');
                 $filter->like('keyword', '关键词');
                 $filter->like('sourceIp', '来源IP');
             });
             $filter->column(1/2 , function ($filter) {
+                $filter->like('diaPage', '发起对话网址');
                 $filter->group('visitorSendNum', '发送消息数', function ($group) {
                     $group->gt('大于');
                     $group->lt('小于');

@@ -33,6 +33,11 @@ class MessageController extends Controller
             return $this->response->errorBadRequest();
         }
 
+        if ($data['recId'] == 743895395) {
+            logger($data);
+        }
+
+
         if (isset($data['dialogs'])) {
             logger('Dialogs Exists');
             $data['clue'] = $this->hasPhone($data['dialogs']);
