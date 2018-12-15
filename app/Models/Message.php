@@ -90,13 +90,26 @@ class Message extends Model
         'tt_mb'  => '手机',
     ];
 
-    public static  $dataTypeArray = [
+    public static $dataTypeArray = [
         'zx' => '整形',
         'kq' => '口腔',
     ];
 
+    public static $app = [
+        'zx' => [
+            'appKey'   => 'ee27c63a034249bdb52bf4d168430977',
+            'appSet'   => 'b1a6ccb93b664af6b792c7d58921b5f8',
+            'appToken' => '3H9Nls',
+        ],
+        'kq' => [
+            'appKey'   => '9c52f651fc714095ac81af05b7b7b535',
+            'appSet'   => 'e727cb3988ae419e865ddbf5edac17c7',
+            'appToken' => 'pcPJMe',
+        ]
+    ];
+
     public function visitor()
     {
-        return $this->hasOne(UserCard::class , 'visitorId' , 'visitorId');
+        return $this->hasOne(UserCard::class, 'visitorId', 'visitorId');
     }
 }

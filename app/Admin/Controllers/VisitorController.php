@@ -109,6 +109,7 @@ class VisitorController extends Controller
                 $filter->like('sourceIp', '来源IP');
             });
             $filter->column(1/2 , function ($filter) {
+                $filter->like('clue', '线索');
                 $filter->like('diaPage', '发起对话网址');
                 $filter->group('visitorSendNum', '发送消息数', function ($group) {
                     $group->gt('大于');

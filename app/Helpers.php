@@ -35,3 +35,24 @@ function valueOfDefault($arr , $default)
     }
     return $arr;
 }
+
+function getKsSign($arr , $pushUrl , $pushType )
+{
+    $time = \Carbon\Carbon::now()->toDateTimeString();
+    $tmpArr= [
+        $arr['appKey'],
+        $arr['appSet'],
+        $arr['appToken'],
+        $time,
+    ];
+    sort($tmpArr, SORT_STRING);
+    $tmpStr = implode( $tmpArr );
+    $data = [
+        'ak' => $arr['appKey'],
+        'tt' => $time,
+        'kssign' => sha1( $tmpStr ),
+        'pu' => $pushUrl,
+        'pt' => $pushType,
+    ];
+    return $data;
+}

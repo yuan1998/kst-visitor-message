@@ -3,12 +3,17 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Message;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class MessageController extends Controller
 {
-    //
+    public static $typeArray = [
+        'zx' => '123',
+        'kq' => '312'
+    ];
+
     public function store(Request $request, $type = null)
     {
         logger('<================ Message Store Start.');
@@ -76,7 +81,21 @@ class MessageController extends Controller
             $result = implode('|', $arr);
         }
 
-        return DB::connection()->getPdo()->quote(utf8_encode($result));
+        return $result ? DB::connection()->getPdo()->quote(utf8_encode($result)) : '';
+    }
+
+    public function repush($type, $appName)
+    {
+        $app     = Message::$app[$appName];
+        $pushUrl = array_get(self::$typeArray, $type, null);
+
+        if (!$app || !$pushUrl) {
+            return $this->response->errorBadRequest();
+        }
+
+        $data = getKsSign($app, $pushUrl, 'HISTORYDATA');
+
+        new Client();
     }
 
 }
