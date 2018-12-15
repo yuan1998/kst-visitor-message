@@ -165,7 +165,7 @@ class VisitorController extends Controller
             return $this->visitor ? $this->visitor : null;
         })->cardModal();
         $grid->visitorName('访客名称')->style('min-width:120px;');
-        $grid->column('visitor.cusType', '客户类型')->style('min-width:180px;')->display(function ($value) use ($type) {
+        $type && $grid->column('visitor.cusType', '客户类型')->style('min-width:180px;')->display(function ($value) use ($type) {
             return $value ? CusTypeController::cusTypeData($type , $value) : '-无-';
         });
         $grid->curStayTime('访客停留时间（秒）')->style('min-width:150px;')->display(function ($value) {
