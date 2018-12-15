@@ -16,52 +16,37 @@ class MessageController extends Controller
 
     public function store(Request $request, $type = null)
     {
-        logger('<================ Message Store Start.');
-
         $data = json_decode($request->get('data', null), true);
 
         if (!$data) {
-            logger("Message Store End, Message Store Bad Request ============>");
             return $this->response->errorBadRequest();
         }
         $data = $this->safeDataFilter($data);
 
-        if (in_array($data['dialogType'], ['dt_v_ov', 'dt_v_nm'])) {
-            logger("Message Store End, DialogType Is {$data['dialogType']}============>");
+        if (in_array(array_get($data, 'dialogType', null), ['dt_v_ov', 'dt_v_nm'])) {
             return $this->response->array("ok")->setStatusCode(200);
         }
 
         $visitorId = $data['visitorId'];
 
         if (!$visitorId) {
-            logger("Message Store End, Message Store Bad VisitorId ============>");
             return $this->response->errorBadRequest();
         }
 
-        if ($data['recId'] == 743895395) {
-            logger($data);
-        }
-
-
         if (isset($data['dialogs'])) {
-            logger('Dialogs Exists');
             $data['clue'] = $this->hasPhone($data['dialogs']);
-            logger("Clue Is {$data['clue']}");
         }
 
         $message = Message::where('visitorId', $visitorId)->first();
 
         if (!$message) {
-            logger('Is New Message');
             $message = new Message();
-            logger("Type Value Is {$type}");
             !empty($type) && $data['data_type'] = $type;
         }
 
         $message->fill($data);
         $message->save();
 
-        logger('Message Store End, Save Success. ================>');
         return $this->response->array("ok")->setStatusCode(200);
     }
 
@@ -93,7 +78,7 @@ class MessageController extends Controller
             return $this->response->errorBadRequest();
         }
 
-        $content = repushRequest($app , $pushUrl , 'HISTORYDATA');
+        $content = repushRequest($app, $pushUrl, 'HISTORYDATA');
         return $this->response->array($content);
     }
 
