@@ -60,11 +60,41 @@ function getKsSign($arr, $pushUrl = null, $pushType = null)
     return $data;
 }
 
-function repushRequest ($app , $pushUrl , $pushType)
+function repushRequest($app, $pushUrl, $pushType)
 {
-    $client = new \GuzzleHttp\Client();
+    $client   = new \GuzzleHttp\Client();
     $response = $client->request('GET', 'http://vipk16-hztk11.kuaishang.cn/bs/ksapi/repush.do', [
-        'query' => getKsSign($app , $pushUrl,$pushType)
+        'query' => getKsSign($app, $pushUrl, $pushType)
     ]);
     return json_decode($response->getBody()->getContents(), true);
+}
+
+function cusTypeRequest($type)
+{
+    $app = array_get(\App\Models\Message::$app, $type, null);
+
+    if (!$app) {
+        return [];
+    }
+
+    $client   = new \GuzzleHttp\Client();
+    $response = $client->request('GET', 'http://vipk16-hztk11.kuaishang.cn/bs/ksapi/getCusType.do', [
+        'query' => getKsSign($app)
+    ]);
+
+    $content = json_decode($response->getBody()->getContents(), true);
+    return $content;
+}
+
+
+function cusTypeToSelect($type)
+{
+    $content = cusTypeRequest($type)['result'];
+    $newArr  = [];
+
+    foreach ($content as $item) {
+        $newArr[$item['typeid']] = $item['typename'];
+    }
+
+    return $newArr;
 }

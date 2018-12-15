@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Http\Controllers\Api\CusTypeController;
 use App\Models\Message;
 use App\Http\Controllers\Controller;
 use Encore\Admin\Admin;
@@ -96,7 +97,7 @@ class VisitorController extends Controller
         if ($type) {
             $grid->model()->where('data_type', $type);
         }
-        $grid->filter(function ($filter) {
+        $grid->filter(function ($filter) use ($type) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
 
@@ -109,7 +110,7 @@ class VisitorController extends Controller
                 $filter->like('sourceProvince', '来源省市');
                 $filter->like('sourceIp', '来源IP');
             });
-            $filter->column(1 / 2, function ($filter) {
+            $filter->column(1 / 2, function ($filter) use ($type) {
                 $filter->like('clue', '线索');
                 $filter->like('diaPage', '发起对话网址');
                 $filter->group('visitorSendNum', '发送消息数', function ($group) {
@@ -119,25 +120,26 @@ class VisitorController extends Controller
                     $group->ngt('不大于');
                     $group->equal('等于');
                 });
-                $filter->group('dialogs' , '聊天记录', function ($group) {
-                    $group->where('仅访客消息',function ($query) {
+                $filter->group('dialogs', '聊天记录', function ($group) {
+                    $group->where('仅访客消息', function ($query) {
                         $test = $this->input;
-                        $query->whereRaw('JSON_CONTAINS(dialogs, \'1\' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->"$**.recContent" , "one",?)),\'.recType\'))=1',["%{$test}%"])
-                            ->whereRaw('JSON_SEARCH(dialogs->"$[*].recContent" , "one",?) IS NOT NULL' , ["%{$test}%"]);
+                        $query->whereRaw('JSON_CONTAINS(dialogs, \'1\' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->"$**.recContent" , "one",?)),\'.recType\'))=1', ["%{$test}%"])
+                            ->whereRaw('JSON_SEARCH(dialogs->"$[*].recContent" , "one",?) IS NOT NULL', ["%{$test}%"]);
                     });
-                    $group->where('所有消息',function ($query) {
+                    $group->where('所有消息', function ($query) {
                         $test = $this->input;
-                        $query->whereRaw('JSON_SEARCH(dialogs->"$[*].recContent" , "one",?) IS NOT NULL' , ["%{$test}%"]);
+                        $query->whereRaw('JSON_SEARCH(dialogs->"$[*].recContent" , "one",?) IS NOT NULL', ["%{$test}%"]);
                     });
-
                 });
-//                $filter->like()->integer();
-                $filter->equal('dialogType', '访客类型')->select(Message::$dialogTypeArray);
+
                 $filter->between('curEnterTime', '最近一次访问')->datetime();
-            });
+                $filter->equal('dialogType', '访客类型')->select(Message::$dialogTypeArray);
 
-
-            // 在这里添加字段过滤器
+                if ($type) {
+                    $data = CusTypeController::cusTypeData($type);
+                    $filter->equal('visitor.cusType', '客户类型')->select($data);
+                }
+            });//往后稍稍
 
         });
 
@@ -163,7 +165,10 @@ class VisitorController extends Controller
             return $this->visitor ? $this->visitor : null;
         })->cardModal();
         $grid->visitorName('访客名称')->style('min-width:120px;');
-        $grid->curStayTime('访客停留时间（秒 ）')->style('min-width:150px;')->display(function ($value) {
+        $grid->column('visitor.cusType', '客户类型')->style('min-width:180px;')->display(function ($value) use ($type) {
+            return $value ? CusTypeController::cusTypeData($type , $value) : '-无-';
+        });
+        $grid->curStayTime('访客停留时间（秒）')->style('min-width:150px;')->display(function ($value) {
             return timeToString($value);
         });
         $grid->sourceIp('访客来源IP')->style('min-width:120px;');;
@@ -178,7 +183,6 @@ class VisitorController extends Controller
         $grid->endType('对话结束方式')->style('min-width:120px;')->display(function ($value) {
             return inArrayOrNull($value, Message::$endTypeArray);
         });
-
 
         $grid->visitorSendNum('访客发送消息数')->style('min-width:140px;');
         $grid->csSendNum('客服发送消息数')->style('min-width:140px;');
