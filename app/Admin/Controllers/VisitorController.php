@@ -123,12 +123,12 @@ class VisitorController extends Controller
                 $filter->group('dialogs', '聊天记录', function ($group) {
                     $group->where('仅访客消息', function ($query) {
                         $test = $this->input;
-                        $query->whereRaw("JSON_CONTAINS(dialogs, '1' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->\"$[*].recContent\" , \"one\",'%{$test}%')),'.recType'))=1")
-                            ->whereRaw("JSON_SEARCH(dialogs->\"$[*].recContent\" , \"one\",'%{$test}%') IS NOT NULL");
+                        $query->whereRaw("JSON_CONTAINS(dialogs, '1' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%')),'.recType'))=1")
+                            ->whereRaw("JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%') IS NOT NULL");
                     });
                     $group->where('所有消息', function ($query) {
                         $test = $this->input;
-                        $query->whereRaw("JSON_SEARCH(dialogs->\"$[*].recContent\" , \"one\",'%{$test}%') IS NOT NULL");
+                        $query->whereRaw("JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%') IS NOT NULL");
                     });
                 });
 
@@ -140,6 +140,13 @@ class VisitorController extends Controller
                     $filter->equal('visitor.cusType', '客户类型')->select($data);
                 }
             });//往后稍稍
+
+            /*
+            JSON_EXTRACT(dialogs,\"$[*].recContent\")
+            JSON_EXTRACT(dialogs,\"$[*].recType\")
+            select count(*) as aggregate from `messages` where `data_type` = kq and (JSON_CONTAINS(dialogs, '1' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->"$[*].recContent" , "one",'%18%')),'.recType'))=1 and JSON_SEARCH(dialogs->"$[*].recContent" , "one",'%18%') IS NOT NULL)
+
+             */
 
         });
 
