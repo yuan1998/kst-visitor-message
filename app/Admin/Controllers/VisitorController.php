@@ -123,7 +123,7 @@ class VisitorController extends Controller
                 $filter->group('dialogs', '聊天记录', function ($group) {
                     $group->where('仅访客消息', function ($query) {
                         $test = $this->input;
-                        $query->whereRaw("JSON_CONTAINS(dialogs, \'1\' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->\"$[*].recContent\" , \"one\",'%{$test}%')),\'.recType\'))=1")
+                        $query->whereRaw("JSON_CONTAINS(dialogs, '1' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->\"$[*].recContent\" , \"one\",'%{$test}%')),'.recType'))=1")
                             ->whereRaw("JSON_SEARCH(dialogs->\"$[*].recContent\" , \"one\",'%{$test}%') IS NOT NULL");
                     });
                     $group->where('所有消息', function ($query) {
