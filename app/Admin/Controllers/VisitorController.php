@@ -139,15 +139,7 @@ class VisitorController extends Controller
                     $data = CusTypeController::cusTypeData($type);
                     $filter->equal('visitor.cusType', '客户类型')->select($data);
                 }
-            });//往后稍稍
-
-            /*
-            JSON_EXTRACT(dialogs,\"$[*].recContent\")
-            JSON_EXTRACT(dialogs,\"$[*].recType\")
-            select count(*) as aggregate from `messages` where `data_type` = kq and (JSON_CONTAINS(dialogs, '1' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(dialogs->"$[*].recContent" , "one",'%18%')),'.recType'))=1 and JSON_SEARCH(dialogs->"$[*].recContent" , "one",'%18%') IS NOT NULL)
-
-             */
-
+            });
         });
 
         $grid->disableCreateButton();

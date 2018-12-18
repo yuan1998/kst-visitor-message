@@ -18,13 +18,12 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api'
 ], function ($api) {
-    //整形
-    $api->post('visitor', "VisitorController@store");
-    $api->post('visitor/message', "MessageController@store");
+    $api->post('message/{type}', "MessageController@store")
+        ->name('api.message.store');
 
     //口腔
-    $api->post('visitor/message/{type}', "MessageController@store");
-    $api->post('visitor/{type}', "VisitorController@store");
+    $api->post('visitor/{type}', "VisitorController@store")
+        ->name('api.visitor.store');
 
     $api->get('custype/{type}' , 'cusTypeController@getKsCusTypeData')
         ->name('api.cusType.getKsCusTypeData');
