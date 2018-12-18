@@ -19,14 +19,14 @@ class VisitorController extends Controller
         $data = json_decode($request->get('data', null), true);
 
         if (!$data) {
-            return $this->response->errorBadRequest();
+            return $this->response->errorBadRequest('Bad Request . Not Found Data Paramater.');
         }
         $data = $this->safeDataFilter($data);
 
         $visitorId = $data['visitorId'];
 
         if (!$visitorId) {
-            return $this->response->errorBadRequest();
+            return $this->response->errorBadRequest('Bad Request . Not Found Visitor Id.');
         }
 
         $card = UserCard::where('visitorId', $visitorId)->first();
