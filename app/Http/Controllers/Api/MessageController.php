@@ -10,8 +10,8 @@ use Illuminate\Support\Facades\DB;
 class MessageController extends Controller
 {
     public static $typeArray = [
-        'zx' => 'http://message.xn--49sw11dtjh1kk.com/api/visitor/message',
-        'kq' => 'http://message.xn--49sw11dtjh1kk.com/api/visitor/message/kq'
+        'zx' => 'http://message.xn--49sw11dtjh1kk.com/api/message/zx',
+        'kq' => 'http://message.xn--49sw11dtjh1kk.com/api/message/kq'
     ];
 
     public function store(Request $request, $type = null)

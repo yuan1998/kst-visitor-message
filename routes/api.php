@@ -21,7 +21,6 @@ $api->version('v1', [
     $api->post('message/{type}', "MessageController@store")
         ->name('api.message.store');
 
-    //口腔
     $api->post('visitor/{type}', "VisitorController@store")
         ->name('api.visitor.store');
 

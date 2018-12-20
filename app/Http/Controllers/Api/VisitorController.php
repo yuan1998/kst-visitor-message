@@ -10,7 +10,7 @@ use Illuminate\Http\Request;
 class VisitorController extends Controller
 {
     public static $typeArray = [
-        'zx' => 'http://message.xn--49sw11dtjh1kk.com/api/visitor',
+        'zx' => 'http://message.xn--49sw11dtjh1kk.com/api/visitor/zx',
         'kq' => 'http://message.xn--49sw11dtjh1kk.com/api/visitor/kq'
     ];
 
