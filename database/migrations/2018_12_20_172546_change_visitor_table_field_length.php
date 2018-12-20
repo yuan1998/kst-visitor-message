@@ -13,7 +13,7 @@ class ChangeVisitorTableFieldLength extends Migration
      */
     public function up()
     {
-        Schema::table('user_cards', function (Blueprint $table) {
+        Schema::table('messages', function (Blueprint $table) {
             $table->string('curFirstViewPage', 1000)->change();
 
         });
@@ -26,7 +26,7 @@ class ChangeVisitorTableFieldLength extends Migration
      */
     public function down()
     {
-        Schema::table('user_cards', function (Blueprint $table) {
+        Schema::table('messages', function (Blueprint $table) {
             $table->string('curFirstViewPage', 500)->change();
         });
     }
