@@ -102,6 +102,12 @@ class VisitorController extends Controller
             $filter->disableIdFilter();
 
             $filter->column(1 / 2, function ($filter) {
+                $filter->where(function ($query) {
+                    if (!empty($this->input)) {
+                        $text = str_replace([',' , ' ' ] , '|' , $this->input);
+                        $query->whereIn('recId' , explode('|', $text));
+                    }
+                },'访客ID');
                 $filter->equal('recId', '访客ID');
                 $filter->like('visitorName', '访客名称');
                 $filter->like('firstCsId', '初次接待客服');
