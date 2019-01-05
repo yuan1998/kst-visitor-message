@@ -108,7 +108,6 @@ class VisitorController extends Controller
                         $query->whereIn('recId' , explode('|', $text));
                     }
                 },'访客ID');
-                $filter->equal('recId', '访客ID');
                 $filter->like('visitorName', '访客名称');
                 $filter->like('firstCsId', '初次接待客服');
                 $filter->like('joinCsIds', '参与接待客服');
