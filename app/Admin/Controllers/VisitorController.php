@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Extensions\ExcelExpoter;
 use App\Http\Controllers\Api\CusTypeController;
 use App\Models\Message;
 use App\Http\Controllers\Controller;
@@ -93,6 +94,7 @@ class VisitorController extends Controller
     protected function grid($type)
     {
         $grid = new Grid(new Message);
+        $grid->exporter(new ExcelExpoter());
         $grid->model()->with('visitor')->orderBy('curEnterTime', 'desc');
         if ($type) {
             $grid->model()->where('data_type', $type);
