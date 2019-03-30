@@ -71,7 +71,8 @@ class ExcelExpoter extends AbstractExporter
                 // 这段逻辑是从表格数据中取出需要导出的字段
 
                 $sheet->rows([$arr->values()->all()]);
-                $rows = collect($this->getData())->map(function ($item) use ($arr) {
+
+                $rows = collect($this->getData())->merge($this->getData())->map(function ($item) use ($arr) {
                     $type            = $item['data_type'];
                     $item['dialogs'] = ExcelExpoter::dialogs($item['dialogs']);
                     $item['type']    = inArrayOrNull($type, Message::$dataTypeArray);
@@ -89,8 +90,6 @@ class ExcelExpoter extends AbstractExporter
                     return $arr->map(function ($value , $key) use($item) {
                         return $item[$key];
                     })->all();
-
-                    return $arr->all();
                 });
 
                 $sheet->rows($rows);
