@@ -24,13 +24,12 @@ class VisitorController extends Controller
         $data = $this->safeDataFilter($data);
 
         $visitorId = $data['visitorId'];
-        $recId = $data['recId'];
 
         if (!$visitorId) {
             return $this->response->errorBadRequest('Bad Request . Not Found Visitor Id.');
         }
 
-        $card = UserCard::where('visitorId', $visitorId)->where('recId' , $recId)->first();
+        $card = UserCard::where('visitorId', $visitorId)->first();
 
         if (!$card) {
             $card = new UserCard();

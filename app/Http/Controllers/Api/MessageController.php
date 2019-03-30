@@ -28,6 +28,7 @@ class MessageController extends Controller
         }
 
         $visitorId = $data['visitorId'];
+        $recId = $data['recId'];
 
         if (!$visitorId) {
             return $this->response->errorBadRequest();
@@ -37,7 +38,7 @@ class MessageController extends Controller
             $data['clue'] = $this->hasPhone($data['dialogs']);
         }
 
-        $message = Message::where('visitorId', $visitorId)->first();
+        $message = Message::where('visitorId', $visitorId)->where('recId' , $recId)->first();
 
         if (!$message) {
             $message = new Message();
