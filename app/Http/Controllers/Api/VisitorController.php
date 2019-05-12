@@ -16,7 +16,13 @@ class VisitorController extends Controller
 
     public function store(Request $request, $type = null)
     {
-        $data = json_decode($request->get('data', null), true);
+        $data = $request->get('data', null);
+        if ($type === 'zx') {
+            $client   = new \GuzzleHttp\Client();
+            $res = $client->request('POST', 'http://bmstest.snnting.com:8802/KST/GetCard',['form_params' => ['data' =>urlencode($data) ]]);
+        }
+
+        $data = json_decode($data, true);
 
         if (!$data) {
             return $this->response->errorBadRequest('Bad Request . Not Found Data Paramater.');
