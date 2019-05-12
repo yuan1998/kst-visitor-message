@@ -32,4 +32,5 @@ $api->version('v1', [
     $api->get('repush/message/{type}' , 'MessageController@repush')
         ->name('api.visitor.repush');
 
+    $api->post('url/get', 'ApiController@getUrl');
 });

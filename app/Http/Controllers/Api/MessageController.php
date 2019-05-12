@@ -16,7 +16,19 @@ class MessageController extends Controller
 
     public function store(Request $request, $type = null)
     {
-        $data = json_decode($request->get('data', null), true);
+        $data = $request->get('data', null);
+
+        if (!$type) {
+            $client   = new \GuzzleHttp\Client();
+            $client->request('POST', 'http://bmstest.snnting.com:8802/KST/GetReocrd', [
+                'form_params' => [
+                    'data'    => $data,
+                    'authKey' => 1,
+                ]
+            ]);
+        }
+
+        $data = json_decode($data, true);
 
         if (!$data) {
             return $this->response->errorBadRequest();
@@ -28,7 +40,7 @@ class MessageController extends Controller
         }
 
         $visitorId = $data['visitorId'];
-        $recId = $data['recId'];
+        $recId     = $data['recId'];
 
         if (!$visitorId) {
             return $this->response->errorBadRequest();
@@ -38,7 +50,7 @@ class MessageController extends Controller
             $data['clue'] = $this->hasPhone($data['dialogs']);
         }
 
-        $message = Message::where('visitorId', $visitorId)->where('recId' , $recId)->first();
+        $message = Message::where('visitorId', $visitorId)->where('recId', $recId)->first();
 
         if (!$message) {
             $message = new Message();

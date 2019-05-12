@@ -63,9 +63,7 @@ class ExcelExpoter extends AbstractExporter
 
             // Call them separately
             $excel->setDescription('A demonstration to change the file properties');
-
             $arr = collect(ExcelExpoter::$fields);
-
 
             $excel->sheet('Sheetname', function ($sheet) use ($arr) {
                 // 这段逻辑是从表格数据中取出需要导出的字段
@@ -89,10 +87,8 @@ class ExcelExpoter extends AbstractExporter
                     return $arr->map(function ($value , $key) use($item) {
                         return $item[$key];
                     })->all();
-
                     return $arr->all();
                 });
-
                 $sheet->rows($rows);
             });
         })->export('xlsx');
