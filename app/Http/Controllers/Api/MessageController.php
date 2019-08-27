@@ -18,9 +18,12 @@ class MessageController extends Controller
     {
 
         $data = $request->get('data', null);
-        if ($type === 'zx') {
+        if ( env('PUSH_TO_SHUNDING',false) && $type === 'zx') {
             $client   = new \GuzzleHttp\Client();
-            $res = $client->request('POST', 'http://bmstest.snnting.com:8802/KST/GetReocrd',['form_params' => ['data' =>urlencode($data) ]]);
+            $res = $client->request('POST', 'http://bmstest.snnting.com:8802/KST/GetReocrd',[
+                'form_params' => ['data' =>urlencode($data) ],
+                'exceptions' => false
+            ]);
         }
 
         $data = json_decode($data, true);
