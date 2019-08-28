@@ -51,6 +51,7 @@ class Message extends Model
         "diaEndTime"     => 'date:yyyy-mm-dd hh24:mi:ss',
         "firstVisitTime" => 'date:yyyy-mm-dd hh24:mi:ss',
         "preVisitTime"   => 'date:yyyy-mm-dd hh24:mi:ss',
+        "dialogs"        => 'json'
     ];
 
     public static $requestTypeArray = [
