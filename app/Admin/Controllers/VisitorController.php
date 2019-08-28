@@ -95,7 +95,8 @@ class VisitorController extends Controller
     {
         $grid = new Grid(new Message);
         $grid->exporter(new ExcelExpoter());
-        $grid->model()->with('visitor')->orderBy('curEnterTime', 'desc');
+        $query = $grid->model();
+        $query->with(['dialog'  , 'visitor' ]);
         if ($type) {
             $grid->model()->where('data_type', $type);
         }
@@ -127,17 +128,17 @@ class VisitorController extends Controller
                     $group->ngt('不大于');
                     $group->equal('等于');
                 });
-                $filter->group('dialogs', '聊天记录', function ($group) {
-                    $group->where('仅访客消息', function ($query) {
-                        $test = $this->input;
-                        $query->whereRaw("JSON_CONTAINS(dialogs, '1' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%')),'.recType'))=1")
-                            ->whereRaw("JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%') IS NOT NULL");
-                    });
-                    $group->where('所有消息', function ($query) {
-                        $test = $this->input;
-                        $query->whereRaw("JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%') IS NOT NULL");
-                    });
-                });
+//                $filter->group('dialogs', '聊天记录', function ($group) {
+//                    $group->where('仅访客消息', function ($query) {
+//                        $test = $this->input;
+//                        $query->whereRaw("JSON_CONTAINS(dialogs, '1' , CONCAT(JSON_UNQUOTE(JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%')),'.recType'))=1")
+//                            ->whereRaw("JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%') IS NOT NULL");
+//                    });
+//                    $group->where('所有消息', function ($query) {
+//                        $test = $this->input;
+//                        $query->whereRaw("JSON_SEARCH(JSON_EXTRACT(dialogs,\"$[*].recContent\") , \"one\",'%{$test}%') IS NOT NULL");
+//                    });
+//                });
 
                 $filter->between('curEnterTime', '最近一次访问')->datetime();
                 $filter->equal('dialogType', '访客类型')->select(Message::$dialogTypeArray);
@@ -166,10 +167,9 @@ class VisitorController extends Controller
             }
             return $result;
         });
-        $grid->dialogs('对话记录')->style('text-align:center;')->messageModal();
-        $grid->cloumn('名片')->display(function () {
-            return $this->visitor ? $this->visitor : null;
-        })->cardModal();
+
+        $grid->column('dialog', '对话记录')->messageModal();
+        $grid->cloumn('visitor','名片')->cardModal();
         $grid->visitorName('访客名称')->style('min-width:120px;');
         $type && $grid->column('visitor.cusType', '客户类型')->style('min-width:180px;')->display(function ($value) use ($type) {
             return $value ? CusTypeController::cusTypeData($type , $value) : '-无-';

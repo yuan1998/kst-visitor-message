@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Dialog;
 use App\Models\Message;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
@@ -47,18 +48,17 @@ class MessageController extends Controller
 
         if (isset($data['dialogs'])) {
             $data['clue'] = $this->hasPhone($data['dialogs']);
+            Dialog::generateDialogs($data['dialogs']);
         }
 
-        $message = Message::where('visitorId', $visitorId)->where('recId' , $recId)->first();
-
-        if (!$message) {
-            $message = new Message();
-            !empty($type) && $data['data_type'] = $type;
-        }
-
-        $message->fill($data);
-        $message->save();
-
+        !empty($type) && $data['data_type'] = $type;
+        Message::updateOrCreate(
+            $data,
+            [
+                'visitorId'=> $visitorId,
+                'recId' => $recId,
+            ]
+        );
         return $this->response->array("ok")->setStatusCode(200);
     }
 
@@ -75,10 +75,10 @@ class MessageController extends Controller
                     isset($matches[0]) && ($arr = array_merge($arr, $matches[0]));
                 }
             }
-            $result = implode('|', $arr);
+            $result = implode(',', $arr);
         }
 
-        return $result ? DB::connection()->getPdo()->quote(utf8_encode($result)) : '';
+        return $result;
     }
 
     public function repush($type)

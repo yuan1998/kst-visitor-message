@@ -16,10 +16,7 @@ class ChangeAddMessageTableIndex extends Migration
         Schema::table('messages', function (Blueprint $table) {
             $table->index('data_type');
             $table->index('visitorSendNum');
-            $table->index('sourceUrl');
             $table->index('keyword');
-            $table->index('dialogs');
-            $table->index('diaPage');
             $table->index('preVisitTime');
         });
     }
@@ -33,6 +30,9 @@ class ChangeAddMessageTableIndex extends Migration
     {
         Schema::table('messages', function (Blueprint $table) {
             $table->dropIndex(['data_type']);
+            $table->dropIndex(['visitorSendNum']);
+            $table->dropIndex(['keyword']);
+            $table->dropIndex(['preVisitTime']);
         });
     }
 }

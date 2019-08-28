@@ -41,7 +41,6 @@ class Message extends Model
         "info",
         "siteName",
         "siteId",
-        "dialogs",
         "data_type",
         "clue",
     ];
@@ -52,7 +51,6 @@ class Message extends Model
         "diaEndTime"     => 'date:yyyy-mm-dd hh24:mi:ss',
         "firstVisitTime" => 'date:yyyy-mm-dd hh24:mi:ss',
         "preVisitTime"   => 'date:yyyy-mm-dd hh24:mi:ss',
-        "dialogs"        => 'json'
     ];
 
     public static $requestTypeArray = [
@@ -111,5 +109,9 @@ class Message extends Model
     public function visitor()
     {
         return $this->hasOne(UserCard::class, 'visitorId', 'visitorId');
+    }
+
+    public function dialog() {
+        return $this->hasMany(Dialog::class , 'recId', 'recId');
     }
 }

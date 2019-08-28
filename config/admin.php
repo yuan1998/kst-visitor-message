@@ -48,7 +48,7 @@ return [
     */
     'route' => [
 
-        'prefix' => 'admin',
+        'prefix' => '',
 
         'namespace' => 'App\\Admin\\Controllers',
 

@@ -4,12 +4,13 @@ namespace App\Admin\Extensions;
 
 use Encore\Admin\Admin;
 use Encore\Admin\Grid\Displayers\AbstractDisplayer;
+use Illuminate\Support\Collection;
 
 class Modal extends AbstractDisplayer
 {
     public function display()
     {
-        if (empty($this->value)) {
+        if (!$this->value) {
             return '-无-';
         }
         $id = "yuan-" . str_random(32);
@@ -44,11 +45,11 @@ EOT;
 
     }
 
-    public function createBody($arr)
+    public function createBody(Array $arr)
     {
-        $arr = array_reverse($arr);
         $str = '';
-
+        $arr = array_reverse($arr);
+//        $arr = $arr->reverse()->toArray();
         foreach ($arr as $item) {
             if( $item['recType'] === 1) {
                 $str .= "<div class='message-pop-wrap message-right'><div class='message-pop-name'>{$item['sender']}</div><div class='message-pop'><p class='message-text'>{$item['recContent']}</p></div></div>";

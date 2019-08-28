@@ -17,9 +17,9 @@ class VisitorController extends Controller
     public function store(Request $request, $type = null)
     {
         $data = $request->get('data', null);
-        if ($type === 'zx') {
+        if (env('PUSH_TO_SHUNDING',false) && $type === 'zx') {
             $client   = new \GuzzleHttp\Client();
-            $res = $client->request('POST', 'http://bmstest.snnting.com:8802/KST/GetCard',['form_params' => ['data' =>urlencode($data) ]]);
+            $res = $client->request('POST', 'http://bmstest.snnting.com:8802/KST/GetCard',['form_params' => ['data' => urlencode($data) ]]);
         }
 
         $data = json_decode($data, true);
@@ -34,16 +34,14 @@ class VisitorController extends Controller
         if (!$visitorId) {
             return $this->response->errorBadRequest('Bad Request . Not Found Visitor Id.');
         }
+        $type && ($data['type'] = $type);
 
-        $card = UserCard::where('visitorId', $visitorId)->first();
-
-        if (!$card) {
-            $card = new UserCard();
-            $type && $data['type'] = $type;
-        }
-
-        $card->fill($data);
-        $card->save();
+        UserCard::updateOrCreate(
+            $data,
+            [
+                'visitorId' => $visitorId
+            ]
+        );
 
         return $this->response->array("ok")->setStatusCode(200);
     }
