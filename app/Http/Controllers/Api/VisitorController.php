@@ -25,6 +25,7 @@ class VisitorController extends Controller
         $data = json_decode($data, true);
 
         if (!$data) {
+            logger('Bad Request . data Not Exists.');
             return $this->response->errorBadRequest('Bad Request . Not Found Data Paramater.');
         }
         $data = $this->safeDataFilter($data);
@@ -32,6 +33,7 @@ class VisitorController extends Controller
         $visitorId = $data['visitorId'];
 
         if (!$visitorId) {
+            logger('Bad Request . visitorId Not Exists.');
             return $this->response->errorBadRequest('Bad Request . Not Found Visitor Id.');
         }
         $type && ($data['type'] = $type);

@@ -7,12 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 class UserCard extends Model
 {
 
-    protected $fillable = [
+    public $fillable = [
         'visitorId',
         'linkman',
         'cusType',
         'compName',
         'compId',
+        'siteId',
         'webUrl',
         'mobile',
         'phone',

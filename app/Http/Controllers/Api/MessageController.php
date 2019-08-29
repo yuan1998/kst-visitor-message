@@ -31,6 +31,7 @@ class MessageController extends Controller
 
 
         if (!$data) {
+            logger('Bad Request: data not exists.');
             return $this->response->errorBadRequest();
         }
         $data = $this->safeDataFilter($data);
@@ -43,6 +44,7 @@ class MessageController extends Controller
         $recId = $data['recId'];
 
         if (!$visitorId) {
+            logger('Bad Request: visitorId not exists.');
             return $this->response->errorBadRequest();
         }
 
