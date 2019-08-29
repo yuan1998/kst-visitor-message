@@ -100,6 +100,7 @@ class VisitorController extends Controller
         if ($type) {
             $grid->model()->where('data_type', $type);
         }
+        $query->orderBy('diaEndTime' , 'DESC');
         $grid->filter(function ($filter) use ($type) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
