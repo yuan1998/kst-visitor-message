@@ -12,6 +12,7 @@ class UserCard extends Model
         'linkman',
         'cusType',
         'compName',
+        'compId',
         'webUrl',
         'mobile',
         'phone',
