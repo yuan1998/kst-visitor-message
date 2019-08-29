@@ -30,5 +30,8 @@ $api->version('v1', [
     $api->get('repush/{type}', 'ApiController@repushData')
         ->name('api.repush.message');
 
+    $api->get('visitor/repush/{type}','VisitorController@repush');
+    $api->get('message/repush/{type}','MessageController@repush');
+
     $api->post('url/get', 'ApiController@getUrl');
 });
