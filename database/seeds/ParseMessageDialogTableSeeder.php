@@ -11,12 +11,12 @@ class ParseMessageDialogTableSeeder extends Seeder
      */
     public function run()
     {
-        $maxCount = \App\Models\Message::count();
+        $maxCount = \App\Models\Message::query()->whereNotNull('dialogs')->count();
         $count = ceil($maxCount/100);
 
-
+        \App\Models\Dialog::reguard();
         for ($i = 0;$i < $count;$i++) {
-            $items = \App\Models\Message::query()->skip($i* 100)->take(100)->get();
+            $items = \App\Models\Message::query()->whereNotNull('dialogs')->skip($i* 100)->take(100)->get();
 
             $items->each(function ($item) use ($maxCount) {
 

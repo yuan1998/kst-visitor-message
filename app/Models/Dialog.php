@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dialog extends Model
 {
+
+    public $timestamps = false;
+
     protected $fillable = [
         'id',
         'recId',
