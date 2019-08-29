@@ -30,7 +30,7 @@ class VisitorController extends Controller
         }
         $data = $this->safeDataFilter($data);
 
-        $visitorId = $data['visitorId'];
+        $visitorId = @$data['visitorId'];
 
         if (!$visitorId) {
             logger('Bad Request . visitorId Not Exists.');
