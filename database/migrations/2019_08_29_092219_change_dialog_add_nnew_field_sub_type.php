@@ -15,6 +15,7 @@ class ChangeDialogAddNnewFieldSubType extends Migration
     {
         Schema::table('dialogs', function (Blueprint $table) {
             $table->string('subType')->nullable();
+            $table->dropTimestamps();
         });
     }
 
@@ -27,6 +28,7 @@ class ChangeDialogAddNnewFieldSubType extends Migration
     {
         Schema::table('dialogs', function (Blueprint $table) {
             $table->dropColumn('subType');
+            $table->timestamps();
         });
     }
 }
