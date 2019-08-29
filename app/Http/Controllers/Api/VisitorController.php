@@ -36,7 +36,7 @@ class VisitorController extends Controller
             logger('Bad Request . visitorId Not Exists.');
             return $this->response->errorBadRequest('Bad Request . Not Found Visitor Id.');
         }
-        $type && ($data['type'] = $type);
+        $type && ($data['data_type'] = $type);
 
         UserCard::updateOrCreate(
             $data,
