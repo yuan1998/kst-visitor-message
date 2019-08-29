@@ -95,7 +95,8 @@ class VisitorController extends Controller
     {
         $grid = new Grid(new Message);
         $grid->exporter(new ExcelExpoter());
-        $grid->model()->with(['dialog'  , 'visitor' ])->orderBy('curEnterTime' , 'DESC');;
+        $grid->model()->with(['dialog'  , 'visitor' ]);
+        $grid->model()->orderBy('curEnterTime' , 'DESC');
         if ($type) {
             $grid->model()->where('data_type', $type);
         }
