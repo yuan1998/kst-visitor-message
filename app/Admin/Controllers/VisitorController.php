@@ -95,12 +95,10 @@ class VisitorController extends Controller
     {
         $grid = new Grid(new Message);
         $grid->exporter(new ExcelExpoter());
-        $query = $grid->model();
-        $query->with(['dialog'  , 'visitor' ]);
+        $grid->model()->with(['dialog'  , 'visitor' ])->orderBy('curEnterTime' , 'DESC');;
         if ($type) {
             $grid->model()->where('data_type', $type);
         }
-        $query->orderBy('diaEndTime' , 'DESC');
         $grid->filter(function ($filter) use ($type) {
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
