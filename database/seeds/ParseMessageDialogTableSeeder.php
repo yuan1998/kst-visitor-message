@@ -21,9 +21,11 @@ class ParseMessageDialogTableSeeder extends Seeder
             $items->each(function ($item) use ($maxCount) {
 
                 var_dump('当前是:'. $item->id . ',总数是:'.$maxCount);
-                \App\Models\Dialog::generateDialogs($item->dialogs);
-                $item->dialogs = null;
-                $item->save();
+                if ($item->dialogs) {
+                    \App\Models\Dialog::generateDialogs($item->dialogs);
+                    $item->dialogs = null;
+                    $item->save();
+                }
             });
         }
     }
