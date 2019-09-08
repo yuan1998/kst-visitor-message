@@ -21,6 +21,4 @@ Route::group([
     $router->get('visitor/{type}', 'VisitorController@index')
         ->name('admin.visitor.index');
 
-
-
 });

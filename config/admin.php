@@ -48,7 +48,7 @@ return [
     */
     'route' => [
 
-        'prefix' => '',
+        'prefix' => 'admin',
 
         'namespace' => 'App\\Admin\\Controllers',
 
@@ -314,7 +314,7 @@ return [
     'extensions' => [
         'material-ui' => [
             // If the value is set to false, this extension will be disabled
-            'enable' => true
+            'enable' => false
         ]
     ],
 ];
