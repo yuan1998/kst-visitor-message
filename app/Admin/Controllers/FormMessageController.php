@@ -101,12 +101,12 @@ class FormMessageController extends Controller
 
         ];
 
-        $grid->name('姓名')->style('text-align:right')->using([], '-无-');
-        $grid->phone('电话')->style('text-align:right')->using([], '-无-');
-        $grid->gender('性别')->using(FormMessage::$genderList , '未知')->style('text-align:right');
-        $grid->url('表单链接')->style('text-align:right')->using([], '-无-');
-        $grid->description('描述')->style('text-align:right')->using([], '-无-');
-        $grid->created_at('创建时间')->style('text-align:right')->using([], '-无-');
+        $grid->name('姓名')->style('text-align:right')->defaultNull();
+        $grid->phone('电话')->style('text-align:right')->defaultNull();
+        $grid->gender('性别')->using(FormMessage::$genderList)->style('text-align:right');
+        $grid->url('表单链接')->style('text-align:right')->defaultNull();
+        $grid->description('描述')->style('text-align:right')->defaultNull();
+        $grid->created_at('创建时间')->style('text-align:right')->defaultNull();
 //        $grid->updated_at('Updated at');
 
         return $grid;

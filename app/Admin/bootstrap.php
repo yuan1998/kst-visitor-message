@@ -22,6 +22,12 @@ use Encore\Admin\Admin;
 
 Encore\Admin\Form::forget(['map', 'editor']);
 
+
+Column::extend('defaultNull', function ($default = '-无-') {
+    return $this->display(function ($value) use($default) {
+        return $value ?: $default;
+    });
+});
 Column::extend('cardModal' , \App\Admin\Extensions\CardModal::class);
 Column::extend('messageModal' , \App\Admin\Extensions\Modal::class);
 Admin::css('/asset/custom.min.css');
