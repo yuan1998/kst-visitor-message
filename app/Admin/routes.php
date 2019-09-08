@@ -16,6 +16,11 @@ Route::group([
     $router->get('form_message' , 'FormMessageController@index')
         ->name('admin.form_message.index');
 
+    $router->get('form_message/{id}' , 'FormMessageController@show')
+        ->name('admin.form_message.show');
+
+
+
     $router->get('visitor', 'VisitorController@index')
         ->name('admin.visitor.index');
     $router->get('visitor/{type}', 'VisitorController@index')
