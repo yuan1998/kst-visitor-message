@@ -18,6 +18,9 @@ $api = app('Dingo\Api\Routing\Router');
 $api->version('v1', [
     'namespace' => 'App\Http\Controllers\Api'
 ], function ($api) {
+    $api->post('formMessage', 'FormMessageController@store')
+        ->name('api.formMessage.store');
+
     $api->post('message/{type}', "MessageController@store")
         ->name('api.message.store');
 
