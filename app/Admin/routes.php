@@ -13,6 +13,9 @@ Route::group([
     $router->get('/', 'HomeController@index')
         ->name('admin.home.index');
 
+    $router->get('form_message' , 'FormMessageController@index')
+        ->name('admin.form_message.index');
+
     $router->get('visitor', 'VisitorController@index')
         ->name('admin.visitor.index');
     $router->get('visitor/{type}', 'VisitorController@index')
