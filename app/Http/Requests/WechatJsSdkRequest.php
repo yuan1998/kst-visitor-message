@@ -25,7 +25,6 @@ class WechatJsSdkRequest extends FormRequest
     {
         return [
             'jsApiList' => 'required|array',
-            'debug' => 'boolean'
         ];
     }
 }
