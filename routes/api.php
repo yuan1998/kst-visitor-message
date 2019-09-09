@@ -37,4 +37,7 @@ $api->version('v1', [
     $api->get('message/repush/{type}','MessageController@repush');
 
     $api->post('url/get', 'ApiController@getUrl');
+
+    $api->get('wechat/official/jssdk' , 'WechatController@jssdkConfigBuilder')
+        ->name('api.wechat.jssdkConfigBuilder');
 });
