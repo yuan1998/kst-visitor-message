@@ -20,6 +20,11 @@ $api->version('v1', [
 ], function ($api) {
     $api->post('formMessage', 'FormMessageController@store')
         ->name('api.formMessage.store');
+    $api->post('questionForm', 'QuestionFormController@store')
+        ->name('api.questionForm.store');
+    $api->get('questionForm/result', 'QuestionFormController@getResult')
+        ->name('api.questionForm.getResult');
+
 
     $api->post('message/{type}', "MessageController@store")
         ->name('api.message.store');
@@ -27,17 +32,17 @@ $api->version('v1', [
     $api->post('visitor/{type}', "VisitorController@store")
         ->name('api.visitor.store');
 
-    $api->get('custype/{type}' , 'cusTypeController@getKsCusTypeData')
+    $api->get('custype/{type}', 'cusTypeController@getKsCusTypeData')
         ->name('api.cusType.getKsCusTypeData');
 
     $api->get('repush/{type}', 'ApiController@repushData')
         ->name('api.repush.message');
 
-    $api->get('visitor/repush/{type}','VisitorController@repush');
-    $api->get('message/repush/{type}','MessageController@repush');
+    $api->get('visitor/repush/{type}', 'VisitorController@repush');
+    $api->get('message/repush/{type}', 'MessageController@repush');
 
     $api->post('url/get', 'ApiController@getUrl');
 
-    $api->get('wechat/official/jssdk' , 'WechatController@jssdkConfigBuilder')
+    $api->get('wechat/official/jssdk', 'WechatController@jssdkConfigBuilder')
         ->name('api.wechat.jssdkConfigBuilder');
 });

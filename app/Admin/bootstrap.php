@@ -28,4 +28,5 @@ Column::extend('defaultNull', function ($value , $default = '-无-') {
 });
 Column::extend('cardModal' , \App\Admin\Extensions\CardModal::class);
 Column::extend('messageModal' , \App\Admin\Extensions\Modal::class);
+Column::extend('questionModal' , \App\Admin\Extensions\QuestionModal::class);
 Admin::css('/asset/custom.min.css');
