@@ -24,8 +24,8 @@ class QuestionFormController extends Controller
     public function index(Content $content)
     {
         return $content
-            ->header('Index')
-            ->description('description')
+            ->header('问卷管理')
+            ->description('集问卷于一身')
             ->body($this->grid());
     }
 
@@ -84,7 +84,7 @@ class QuestionFormController extends Controller
         $grid->model()->orderBy('id', 'desc');
         $grid->expandFilter();
 
-        $grid->filter(function($filter){
+        $grid->filter(function ($filter) {
 
             // 去掉默认的id过滤器
             $filter->disableIdFilter();
@@ -102,6 +102,9 @@ class QuestionFormController extends Controller
 
                 // 去掉编辑
                 $actions->disableEdit();
+
+                // 去掉查看
+//            $actions->disableView();
             });
 
             // 去掉批量操作
